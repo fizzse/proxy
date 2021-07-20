@@ -13,8 +13,9 @@ import (
 )
 
 type ProxyConfig struct {
-	ListenAddr string        `yaml:"listenAddr"`
-	Timeout    time.Duration `yaml:"timeout"`
+	ListenAddr string        `yaml:"listenAddr"` // 监听地址
+	Timeout    time.Duration `yaml:"timeout"`    // 超时
+	Debug      bool          `yaml:"debug"`      // debug 模式 打日志 生产需要关闭
 }
 
 func New(cfg *ProxyConfig) (cli *ProxyCli, cleanFunc func(), err error) {

@@ -16,7 +16,10 @@ func (p *ProxyCli) ServeProxy(w http.ResponseWriter, r *http.Request) {
 }
 
 func (p *ProxyCli) handleHttps(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("server https")
+	if p.cfg.Debug {
+		fmt.Println("proxy with https")
+	}
+
 	destConn, err := net.DialTimeout("tcp", r.Host, p.cfg.Timeout)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusServiceUnavailable)
@@ -40,6 +43,10 @@ func (p *ProxyCli) handleHttps(w http.ResponseWriter, r *http.Request) {
 }
 
 func (p *ProxyCli) handleHttp(w http.ResponseWriter, r *http.Request) {
+	if p.cfg.Debug {
+		fmt.Println("proxy with http")
+	}
+
 	resp, err := http.DefaultTransport.RoundTrip(r)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusServiceUnavailable)
