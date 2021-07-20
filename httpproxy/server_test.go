@@ -10,7 +10,7 @@ import (
 )
 
 func TestServe(t *testing.T) {
-	cfg := &ProxyConfig{
+	cfg := &Config{
 		ListenAddr: "0.0.0.0:8000",
 		Timeout:    5 * time.Second,
 	}
@@ -26,7 +26,7 @@ func TestServe(t *testing.T) {
 }
 
 func TestServe_httpsProxy(t *testing.T) {
-	cfg := &ProxyConfig{
+	cfg := &Config{
 		ListenAddr: "0.0.0.0:8000",
 		Timeout:    5 * time.Second,
 	}

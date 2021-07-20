@@ -12,13 +12,13 @@ import (
 	"time"
 )
 
-type ProxyConfig struct {
+type Config struct {
 	ListenAddr string        `yaml:"listenAddr"` // 监听地址
 	Timeout    time.Duration `yaml:"timeout"`    // 超时
 	Debug      bool          `yaml:"debug"`      // debug 模式 打日志 生产需要关闭
 }
 
-func New(cfg *ProxyConfig) (cli *ProxyCli, cleanFunc func(), err error) {
+func New(cfg *Config) (cli *ProxyCli, cleanFunc func(), err error) {
 	cli = &ProxyCli{}
 	cli.cfg = cfg
 
@@ -41,7 +41,7 @@ func New(cfg *ProxyConfig) (cli *ProxyCli, cleanFunc func(), err error) {
 }
 
 type ProxyCli struct {
-	cfg *ProxyConfig
+	cfg *Config
 	srv *http.Server
 }
 

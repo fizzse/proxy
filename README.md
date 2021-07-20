@@ -10,20 +10,29 @@
 ## https 使用
 
 ```go
-// 具体代码参考 https://github.com/fizzse/proxy/blob/main/https/server_test.go
-func TestServe(t *testing.T) {
-        cfg := &ProxyConfig{
-        ListenAddr: "0.0.0.0:8000",
-        Timeout:    5 * time.Second,
-    }
+// 具体代码参考 https://github.com/fizzse/proxy/blob/main/httpproxy/server_test.go
+package main
 
-    cli, clean, err := New(cfg)
-    if err != nil {
-        log.Fatal(err)
-    }
-    defer clean()
+import (
+	"log"
+	"time"
 
-    log.Println("server run at: ", cfg.ListenAddr)
-    log.Fatal(cli.Run())
+	"github.com/fizzse/proxy/httpproxy"
+)
+
+func main() {
+	cfg := &httpproxy.Config{
+		ListenAddr: "0.0.0.0:8000",
+		Timeout:    5 * time.Second,
+	}
+
+	cli, clean, err := httpproxy.New(cfg)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer clean()
+
+	log.Println("server run at: ", cfg.ListenAddr)
+	log.Fatal(cli.Run())
 }
 ```
