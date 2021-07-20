@@ -30,7 +30,7 @@ func New(cfg *ProxyConfig) (cli *ProxyCli, cleanFunc func(), err error) {
 		Addr:      cfg.ListenAddr,
 		TLSConfig: &tls.Config{Certificates: []tls.Certificate{cert}},
 		Handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			ServeProxy(w, r)
+			cli.ServeProxy(w, r)
 		}),
 	}
 

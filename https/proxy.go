@@ -5,20 +5,19 @@ import (
 	"io"
 	"net"
 	"net/http"
-	"time"
 )
 
-func ServeProxy(w http.ResponseWriter, r *http.Request) {
+func (p *ProxyCli) ServeProxy(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodConnect {
-		handleHttps(w, r)
+		p.handleHttps(w, r)
 	} else {
-		handleHttp(w, r)
+		p.handleHttp(w, r)
 	}
 }
 
-func handleHttps(w http.ResponseWriter, r *http.Request) {
+func (p *ProxyCli) handleHttps(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("server https")
-	destConn, err := net.DialTimeout("tcp", r.Host, 60*time.Second)
+	destConn, err := net.DialTimeout("tcp", r.Host, p.cfg.Timeout)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusServiceUnavailable)
 		return
@@ -40,7 +39,7 @@ func handleHttps(w http.ResponseWriter, r *http.Request) {
 	go transfer(clientConn, destConn)
 }
 
-func handleHttp(w http.ResponseWriter, r *http.Request) {
+func (p *ProxyCli) handleHttp(w http.ResponseWriter, r *http.Request) {
 	resp, err := http.DefaultTransport.RoundTrip(r)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusServiceUnavailable)
